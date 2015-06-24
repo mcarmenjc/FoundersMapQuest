@@ -17,6 +17,7 @@ app.AppView = Backbone.View.extend(/** @lends AppView.prototype */{
      * @property {Object} events Object that associates different events in the DOM with the functions that handle them 
      */
     events: {
+        'click #button-file-chooser': 'openFileChooser'
     },
     /** 
      * @contructs AppView object 
@@ -28,5 +29,8 @@ app.AppView = Backbone.View.extend(/** @lends AppView.prototype */{
         me.$selectFileRow = me.$('#select-file-row');
         me.$columnSelectionRow = me.$('#column-selection-row');
         me.$resultRow = me.$('#result-row');
+    },
+    openFileChooser: function() {
+        
     }
 });

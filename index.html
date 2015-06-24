@@ -4,22 +4,46 @@
     <meta charset="utf-8" />
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" media="screen" />
+    <link href="css/founders-map-quest.css" rel="stylesheet" media="screen" />
     <title>Founders Map Quest</title>
 </head>
 
-<body>  
-    <div id="header">
-        FOUNDERS MAP QUEST
+<body> 
+    <div class="container"> 
+        <div id="header" class="jumbotron">
+            <h1 class="text-center">FOUNDERS MAP QUEST</h1>
+        </div>
+        <div id="main">
+            <div id="steps-row" class="row">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div id="first-column" class="step">
+                        <h2>First! Upload your file!</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">    
+                    <div id="second-column" class="step">
+                        <h2>Second! We need your feedback!</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div id="third-column" class="step">
+                        <h2>Third! Enjoy the results!</h2>
+                    </div>
+                </div>
+            </div>
+            <div id="select-file-row" class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                    <a class="btn btn-lg btn-primary" id="button-file-chooser">Upload file</a>
+                </div>
+            </div>
+            <div id="column-selection-row"></div>
+            <div id="result-row"></div>
+        </div>
     </div>
-    <div id="main">
-        <div id="steps-row"></div>
-        <div id="select-file-row"></div>
-        <div id="column-selection-row"></div>
-        <div id="result-row"></div>
-    </div>
-    <script src="js/lib/jquery-2.1.4.min.js"></script>
-    <script src="js/lib/underscore.js"></script>
-    <script src="js/lib/backbone.js"></script>    
+    <script src="js/libs/jquery-2.1.4.min.js"></script>
+    <script src="js/libs/underscore.js"></script>
+    <script src="js/libs/backbone.js"></script>    
     
     <script src="js/models/file-model.js"></script>
     <script src="js/views/app-view.js"></script>

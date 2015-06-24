@@ -38,14 +38,28 @@ app.FileModel = Backbone.Model.extend(/** @lends FileModel.prototype */ {
 	 getColumnsNo: function(){
 	 	return this.get('columns').length;
 	 },
+	 addNewColumn: function(column){
+	 	if(column !== undefined && column !== ''){
+	 		this.get('columns').push(column);
+	 	}
+	 },
 	 getLatitudeColumn: function(){
 	 	return this.get('latitudeColumn');
+	 },
+	 setLatitudeColumn: function(latitude){
+	 	this.set('latitudeColumn', latitude);
 	 },
 	 getLongitudeColumn: function(){
 	 	return this.get('longitudeColumn');
 	 },
+	 setLongitudeColumn: function(longitude){
+	 	this.set('longitudeColumn', longitude);
+	 },
 	 getMarkerColumn: function(){
 	 	return this.get('markerColumn');
+	 },
+	 setMarkerColumn: function(marker){
+	 	this.set('markerColumn', marker);
 	 },
 	 getDataRow: function(rowNo){
 	 	var me = this;
@@ -59,5 +73,10 @@ app.FileModel = Backbone.Model.extend(/** @lends FileModel.prototype */ {
 	 },
 	 getDataRowNo: function(){
 	 	return this.get('data').length;
+	 },
+	 addNewDataRow: function(dataRow){
+	 	if(dataRow !== undefined && dataRow !== null){
+	 		this.get('data').push(dataRow);
+	 	}
 	 }
 }); 

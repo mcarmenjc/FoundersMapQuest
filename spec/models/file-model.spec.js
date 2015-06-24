@@ -167,4 +167,78 @@ describe ('app.FileModel', function(){
 			});
 		});
 	});
+	describe('setters', function(){
+		describe('#setLatitudeColumn', function(){
+			it('should be defined', function(){
+				expect(file.setLatitudeColumn).toBeDefined();
+			});
+
+			it('should set property latitudeColumn to the specified value', function(){
+				file.setLatitudeColumn(2);
+				expect(file.getLatitudeColumn()).toEqual(2);
+			});			
+		});
+		describe('#setLongitudeColumn', function(){
+			it('should be defined', function(){
+				expect(file.setLongitudeColumn).toBeDefined();
+			});
+
+			it('should set property longitudeColumn to the specified value', function(){
+				file.setLongitudeColumn(2);
+				expect(file.getLongitudeColumn()).toEqual(2);
+			});			
+		});
+		describe('#setMarkerColumn', function(){
+			it('should be defined', function(){
+				expect(file.setMarkerColumn).toBeDefined();
+			});
+
+			it('should set property markerColumn to the specified value', function(){
+				file.setMarkerColumn(2);
+				expect(file.getMarkerColumn()).toEqual(2);
+			});			
+		});
+	});
+	describe('addNewColumn', function(){
+		it('should be defined', function(){
+			expect(file.addNewColumn).toBeDefined();
+		});
+		it('should not add the column to the array if it is undefined', function(){
+			var length = file.getColumnsNo();
+			file.addNewColumn(undefined);
+			expect(file.getColumnsNo()).toEqual(length);
+		});
+		it('should not add the column to the array if it is empty string', function(){
+			var length = file.getColumnsNo();
+			file.addNewColumn('');
+			expect(file.getColumnsNo()).toEqual(length);
+		});
+		it('otherwise should add the column at the end of the array', function(){
+			var length = file.getColumnsNo();
+			file.addNewColumn('name');
+			expect(file.getColumnsNo()).toEqual(length+1);
+			expect(file.getColumnAt(length)).toEqual('name');
+		});
+	});
+	describe('addNewDataRow', function(){
+		it('should be defined', function(){
+			expect(file.addNewDataRow).toBeDefined();
+		});
+		it('should not add the data row to the array if it is undefined', function(){
+			var length = file.getDataRowNo();
+			file.addNewDataRow(undefined);
+			expect(file.getDataRowNo()).toEqual(length);
+		});
+		it('should not add the data row to the array if it is null', function(){
+			var length = file.getDataRowNo();
+			file.addNewDataRow(null);
+			expect(file.getDataRowNo()).toEqual(length);
+		});
+		it('otherwise should add the data row at the end of the array', function(){
+			var length = file.getDataRowNo();
+			file.addNewDataRow({name: 'google', latitude: 1, longitude: 2});
+			expect(file.getDataRowNo()).toEqual(length+1);
+			expect(file.getDataRow(length)).toEqual({name: 'google', latitude: 1, longitude: 2});
+		});
+	});
 });
