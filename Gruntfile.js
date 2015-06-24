@@ -45,15 +45,14 @@ module.exports = function (grunt) {
                 ],
                 options: {
                     vendor: [
-                        'js/lib/jquery-2.1.3.js',  
-                        'js/lib/underscore.js', 
-                        'js/lib/backbone.js', 
-                        'specs/lib/sinon-1.14.1.js', 
-                        'specs/lib/jasmine-jquery.js'
+                        'js/libs/jquery-2.1.4.js',  
+                        'js/libs/underscore.js', 
+                        'js/libs/backbone.js',  
+                        'specs/libs/jasmine-jquery.js'
                     ],
                     specs: [
-                        'specs/models/*.js', 
-                        'specs/views/*.js'
+                        'spec/models/*.js', 
+                        'spec/views/*.js'
                     ]
                 }
             }
@@ -73,17 +72,13 @@ module.exports = function (grunt) {
         watch: {
             javascript: {
                 files: [
-                    'js/collections/*.js', 
-                    'js/models/*.js', 
-                    'js/routers/*.js', 
+                    'js/models/*.js',  
                     'js/views/*.js', 
                     'js/app.js', 
-                    'specs/models/*.js', 
-                    'specs/collections/*.js', 
-                    'specs/routers/*.js', 
-                    'specs/views/*.js'
+                    'spec/models/*.js',  
+                    'spec/views/*.js'
                 ],
-                tasks: ['jshint', 'jasmine', 'jsdoc']
+                tasks: ['jshint', 'jasmine']
             }
         }
     });
