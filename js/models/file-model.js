@@ -43,6 +43,11 @@ app.FileModel = Backbone.Model.extend(/** @lends FileModel.prototype */ {
 	 		this.get('columns').push(column);
 	 	}
 	 },
+	 setColumns: function(colArray){
+	 	if (colArray.length !== 0){
+	 		this.set('columns', colArray);
+	 	}
+	 },
 	 getLatitudeColumn: function(){
 	 	return this.get('latitudeColumn');
 	 },
@@ -75,8 +80,32 @@ app.FileModel = Backbone.Model.extend(/** @lends FileModel.prototype */ {
 	 	return this.get('data').length;
 	 },
 	 addNewDataRow: function(dataRow){
-	 	if(dataRow !== undefined && dataRow !== null){
+	 	if(dataRow.length !== 0){
 	 		this.get('data').push(dataRow);
+	 	}
+	 },
+	 setDataFromFile: function(file){
+	 	var me = this;
+	 	Papa.parse(file, {
+            complete: function(results) {
+                me.setColumns(results.data[0]);
+                for (i = 1; i < results.data.length; i++){
+                    me.addNewDataRow(results.data[i]);
+                }
+                me.trigger('processedFile', me);
+            }
+        });
+	 },
+	 guessLatitudeAndLongitudeColumns: function(){
+	 	var i,
+	 		me = this;
+	 	for (i = 0; i < me.getColumnsNo(); i++){
+	 		if (me.getColumnAt(i).toUpperCase().indexOf('LATITUDE') !== -1){
+	 			me.setLatitudeColumn(i);
+	 		}
+	 		if (me.getColumnAt(i).toUpperCase().indexOf('LONGITUDE') !== -1){
+	 			me.setLongitudeColumn(i);
+	 		}
 	 	}
 	 }
 }); 

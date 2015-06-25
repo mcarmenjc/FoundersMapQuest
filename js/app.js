@@ -2,8 +2,8 @@
 
 var app = app || {};
 
-app.File = new app.FileModel();
+var file = new app.FileModel();
 
 $(function () {
-    new app.AppView();
+    new app.FileView({model: file});
 });
