@@ -198,6 +198,18 @@ describe ('app.FileModel', function(){
 				expect(file.getMarkerColumn()).toEqual(2);
 			});			
 		});
+		describe('#setColumns', function(){
+			it('should be defined', function(){
+				expect(file.setColumns).toBeDefined();
+			});
+
+			it('should overwrite the columns array with the new array', function(){
+				var lenght = file.getColumnsNo();
+				file.setColumns(['first', 'second', 'third']);
+				expect(file.getColumnsNo()).not.toEqual(length);
+				expect(file.getColumns()).toEqual(['first', 'second', 'third']);
+			});
+		});
 	});
 	describe('addNewColumn', function(){
 		it('should be defined', function(){
@@ -224,21 +236,26 @@ describe ('app.FileModel', function(){
 		it('should be defined', function(){
 			expect(file.addNewDataRow).toBeDefined();
 		});
-		it('should not add the data row to the array if it is undefined', function(){
+		it('should not add the data row to the array if it is an empty array', function(){
 			var length = file.getDataRowNo();
-			file.addNewDataRow(undefined);
-			expect(file.getDataRowNo()).toEqual(length);
-		});
-		it('should not add the data row to the array if it is null', function(){
-			var length = file.getDataRowNo();
-			file.addNewDataRow(null);
+			file.addNewDataRow([]);
 			expect(file.getDataRowNo()).toEqual(length);
 		});
 		it('otherwise should add the data row at the end of the array', function(){
 			var length = file.getDataRowNo();
-			file.addNewDataRow({name: 'google', latitude: 1, longitude: 2});
+			file.addNewDataRow(['google', 1, 2]);
 			expect(file.getDataRowNo()).toEqual(length+1);
-			expect(file.getDataRow(length)).toEqual({name: 'google', latitude: 1, longitude: 2});
+			expect(file.getDataRow(length)).toEqual(['google', 1, 2]);
+		});
+	});
+	describe('emptyDataArray', function(){
+		it('should be defined', function(){
+			expect(file.emptyDataArray).toBeDefined();
+		});
+		it('should empty the data array', function(){
+			file.addNewDataRow(['google', 1, 2]);
+			file.emptyDataArray();
+			expect(file.getDataRowNo()).toEqual(0);
 		});
 	});
 });

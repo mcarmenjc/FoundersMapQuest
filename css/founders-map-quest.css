@@ -26,3 +26,11 @@
 .dropdown-col {
 	margin-top: 15px;
 }
+
+.map {
+	width: 100%;
+	height: 400px;
+	background-color: #ccc;
+	margin-bottom: 60px;
+	text-align: center;
+}

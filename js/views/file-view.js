@@ -29,6 +29,9 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         me.$columnSelectionRow = me.$('#column-selection-row');
         me.$resultRow = me.$('#result-row');
         me.$fileChooser = me.$('#file-chooser');
+        me.$mapElement = me.$('#map-canvas');
+        me.map = undefined;
+        me.markers = [];
 
         me.listenTo(me.model, 'processedFile', me.showSelectOptions);
 
@@ -44,15 +47,15 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
     },
     /** 
      * Extract data from file
-     * @param {Object} event 
      */
     processFile: function(event) {
         var fileName = this.$fileChooser.val(),
             file,
-            i;
+            me = this;
         if(fileName !== ''){
-            file = event.originalEvent.target.files[0];
-            this.model.setDataFromFile(file);
+            file = me.$fileChooser[0].files[0];
+            me.model.setDataFromFile(file);
+            me.$fileChooser[0].value = null;
         }
     },
     /** 
@@ -91,8 +94,59 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
      * Show the result row and hide the dropdown row
      */
     showResults: function(){
+        var me = this,
+            latitudeColumn = me.$('#dropdown-latitude').val(),
+            longitudeColumn = me.$('#dropdown-longitude').val(),
+            markerColumn = me.$('#dropdown-marker').val();
+        if (latitudeColumn !== longitudeColumn){
+            me.setDropdownValuesIntoModel(latitudeColumn, longitudeColumn, markerColumn);
+            me.$columnSelectionRow.hide();
+            me.$resultRow.show();
+            me.initialiseMap();
+            me.addOfficesToMap();
+        }
+    },
+    addOfficesToMap: function(){
+        var i,
+            me = this;
+        me.markers = [];
+        for (i = 0; i < me.model.getDataRowNo(); i++){
+            me.createMapMarker(i);
+        }
+    },
+    createMapMarker: function(position){
+        var me = this,
+            latitude = me.model.getDataRow(position)[me.model.getLatitudeColumn()],
+            longitude = me.model.getDataRow(position)[me.model.getLongitudeColumn()],
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(latitude, longitude),
+                map: me.map
+            });
+        me.markers.push(marker);
+    },
+    setDropdownValuesIntoModel: function(latitudeColumn, longitudeColumn, markerColumn){
         var me = this;
-        me.$columnSelectionRow.hide();
-        me.$resultRow.show();
+        me.model.setLatitudeColumn(me.model.getColumnAt(latitudeColumn));
+        me.model.setLongitudeColumn(me.model.getColumnAt(longitudeColumn));
+        me.model.setMarkerColumn(me.model.getColumnAt(markerColumn));
+    },
+    initialiseMap : function() {
+        var mapCenter = this.getUserPosition(),
+            mapCanvas = document.getElementById('map-canvas'),
+            mapOptions = {
+                center: mapCenter,
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+    },
+    getUserPosition: function(){
+        var me = this,
+            latitudeColumn = me.model.getLatitudeColumn(),
+            longitudeColumn = me.model.getLongitudeColumn(),
+            mapCenter = new google.maps.LatLng(
+                me.model.getDataRow(0)[latitudeColumn], 
+                me.model.getDataRow(0)[longitudeColumn]);
+        return mapCenter;
     }
 });
