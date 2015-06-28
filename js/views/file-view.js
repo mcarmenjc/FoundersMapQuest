@@ -30,10 +30,13 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         me.$resultRow = me.$('#result-row');
         me.$fileChooser = me.$('#file-chooser');
         me.$mapElement = me.$('#map-canvas');
+        me.$table = me.$('#table-places');
         me.map = undefined;
         me.markers = [];
 
         me.listenTo(me.model, 'processedFile', me.showSelectOptions);
+        me.listenTo(app.Rows, 'add', me.addRow);
+        me.listenTo(app.Rows, 'reset', me.removeAllRows);
 
         me.$columnSelectionRow.hide();
         me.$resultRow.hide();
@@ -100,10 +103,18 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
             markerColumn = me.$('#dropdown-marker').val();
         if (latitudeColumn !== longitudeColumn){
             me.setDropdownValuesIntoModel(latitudeColumn, longitudeColumn, markerColumn);
+            me.addAllRows();
             me.$columnSelectionRow.hide();
             me.$resultRow.show();
             me.initialiseMap();
             me.addOfficesToMap();
+        }
+    },
+    addAllRows: function(){
+        var me = this,
+            i;
+        for (i = 0; i < me.model.getDataRowNo(); i++){
+            app.Rows.add(new app.RowModel(me.model.getDataRow(i)));
         }
     },
     addOfficesToMap: function(){
@@ -116,11 +127,16 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
     },
     createMapMarker: function(position){
         var me = this,
-            latitude = me.model.getDataRow(position)[me.model.getLatitudeColumn()],
-            longitude = me.model.getDataRow(position)[me.model.getLongitudeColumn()],
+            latitudeColumn = me.model.getLatitudeColumn(),
+            longitudeColumn = me.model.getLongitudeColumn(),
+            markerColumn = me.model.getMarkerColumn(),
+            latitude = me.model.getDataRow(position)[latitudeColumn],
+            longitude = me.model.getDataRow(position)[longitudeColumn],
+            marker = me.model.getDataRow(position)[markerColumn],
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(latitude, longitude),
-                map: me.map
+                map: me.map,
+                title: marker + ''
             });
         me.markers.push(marker);
     },
@@ -135,10 +151,10 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
             mapCanvas = document.getElementById('map-canvas'),
             mapOptions = {
                 center: mapCenter,
-                zoom: 15,
+                zoom: 10,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-        var map = new google.maps.Map(mapCanvas, mapOptions);
+        this.map = new google.maps.Map(mapCanvas, mapOptions);
     },
     getUserPosition: function(){
         var me = this,
@@ -148,5 +164,13 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
                 me.model.getDataRow(0)[latitudeColumn], 
                 me.model.getDataRow(0)[longitudeColumn]);
         return mapCenter;
+    },
+    addRow: function(row){
+        var me = this,
+            rowView = new app.RowView({model: row});
+        me.$table.append(rowView.render().el);
+    },
+    removeAllRows: function(){
+
     }
 });
