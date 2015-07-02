@@ -21,7 +21,14 @@ app.RowModel = Backbone.Model.extend(/** @lends RowModel.prototype */ {
      * Set value of hide property to !hide, to show or hide the marker on the map
      */
 	 toggle: function(){
-	 	this.set('hide', !this.get('hide'));
+	 	var me = this;
+	 	me.set('hide', !me.get('hide'));
+	 	if (me.get('hide')){
+	 		me.hideMarker();
+	 	}
+	 	else{
+	 		me.showMarker();
+	 	}
 	 },
 	 /** 
      * Get if the row is hidden from the map or not
@@ -34,14 +41,17 @@ app.RowModel = Backbone.Model.extend(/** @lends RowModel.prototype */ {
      * Hide the marker from the map, removing value of the map property of the marker
      */
 	 hideMarker: function(){
-
+	 	var me = this,
+	 		marker = me.get('googleMarker');
+	 	marker.setMap(null);
 	 },
 	 /** 
      * Set map property of the marker, to make it visible again
-     * @param {Object} map Map where marker is going to be displayed
      */
-	 showMarker: function(map){
-
+	 showMarker: function(){
+	 	var me = this,
+	 		marker = me.get('googleMarker');
+	 	marker.setMap(me.get('googleMap'));
 	 },
 	 /** 
      * Initialise googleMarker property
@@ -62,6 +72,7 @@ app.RowModel = Backbone.Model.extend(/** @lends RowModel.prototype */ {
             map: googleMap,
             title: title
         });
+        me.set('googleMap', googleMap);
 	 	me.set('googleMarker', gMarker);
 	 }
 }); 

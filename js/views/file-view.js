@@ -21,7 +21,9 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
     events: {
         'click #button-file-chooser': 'openFileChooser',
         'change #file-chooser': 'processFile',
-        'click #show-results-button': 'showResults'
+        'click #show-results-button': 'showResults',
+        'click #filter-button': 'filterRows',
+        'click #sort-button': 'sortRows'
     },
     /** 
      * @contructs AppView object 
@@ -140,6 +142,8 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
             markerColumn = me.$('#dropdown-marker').val(),
             mapCenter;
         if (latitudeColumn !== longitudeColumn){
+            me.setDropdownListValues('#dropdown-sort', true);
+            me.setDropdownListValues('#dropdown-filter', true);
             me.$columnSelectionRow.hide();
             me.$resultRow.show();
             mapCenter = me.getMapCenter(latitudeColumn, longitudeColumn);
@@ -179,5 +183,32 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
                 latitudeValue, 
                 longitudeValue);
         return mapCenter;
+    },
+    addAllColumns: function(){
+        var me = this,
+            htmlText = '<th>Hide</th>\n';
+        app.Columns.each(function(column){
+            htmlText = htmlText + '<th>' + column.getName() + '</th>\n';
+        });
+        me.$table.append($('<thead>').append($('<tr>').html(htmlText)));
+    },
+    addAllRows: function(){
+        app.Rows.each(this.addRow, this);
+    },
+    addRow: function(row) {
+        var view = new app.RowView ({model: row});
+        this.$table.append(view.render().el);
+    },
+    filterRows: function(){
+        var me = this,
+            filterColumn = me.$('#dropdown-filter').val(),
+            filterValue = me.$('#filter-value').val();
+        app.Rows.where({filterColumn : filterValue});
+    },
+    sortRows: function(){
+        var me = this,
+            sortColumn = me.$('#dropdown-sort').val();
+        app.Rows.comparator = sortColumn;
+        app.Rows.sort();
     }
 });
