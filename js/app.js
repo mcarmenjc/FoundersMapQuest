@@ -3,7 +3,7 @@
 var app = app || {};
 
 app.Rows = new app.RowCollection();
-var file = new app.FileModel();
+app.Columns = new app.ColumnCollection();
 $(function () {
-    new app.FileView({model: file});
+    new app.FileView();
 });

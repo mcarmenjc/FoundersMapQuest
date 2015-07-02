@@ -7,6 +7,7 @@ module.exports = function (grunt) {
             dist: {
                 src: [
                     'js/models/*.js', 
+                    'js/collections/*.js',
                     'js/views/*.js', 
                     'js/app.js'
                 ],
@@ -25,7 +26,8 @@ module.exports = function (grunt) {
         },
         jshint: {
             files: [
-                'js/models/*.js', 
+                'js/models/*.js',
+                'js/collections/*.js',
                 'js/views/*.js', 
                 'js/app.js'
             ],
@@ -41,6 +43,7 @@ module.exports = function (grunt) {
             test: {
                 src: [
                     'js/models/*.js', 
+                    'js/collections/*.js',
                     'js/views/*.js'
                 ],
                 options: {
@@ -52,6 +55,7 @@ module.exports = function (grunt) {
                     ],
                     specs: [
                         'spec/models/*.js', 
+                        'spec/collections/*.js',
                         'spec/views/*.js'
                     ]
                 }
@@ -61,6 +65,7 @@ module.exports = function (grunt) {
             dist: {
                 src: [
                     'js/models/*.js', 
+                    'js/collections/*.js',
                     'js/views/*.js', 
                     'js/app.js'
                 ],
@@ -73,9 +78,11 @@ module.exports = function (grunt) {
             javascript: {
                 files: [
                     'js/models/*.js',  
+                    'js/collections/*.js',
                     'js/views/*.js', 
                     'js/app.js', 
-                    'spec/models/*.js',  
+                    'spec/models/*.js', 
+                    'spec/collections/*.js',
                     'spec/views/*.js'
                 ],
                 tasks: ['jshint', 'jasmine']
