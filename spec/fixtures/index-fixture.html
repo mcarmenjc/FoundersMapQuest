@@ -1,0 +1,102 @@
+<body> 
+    <div class="container"> 
+        <div id="header" class="jumbotron">
+            <h1 class="text-center">FOUNDERS MAP QUEST</h1>
+        </div>
+        <div id="main">
+            <div id="steps-row" class="row">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div id="first-column" class="step">
+                        <h2>First! Upload your file!</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">    
+                    <div id="second-column" class="step">
+                        <h2>Second! We need your feedback!</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div id="third-column" class="step">
+                        <h2>Third! Enjoy the results!</h2>
+                    </div>
+                </div>
+            </div>
+            <div id="select-file-row" class="row">
+                <input type="file" id="file-chooser" accept="*.csv" class="hidden" />
+                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                    <a class="btn btn-lg btn-primary" id="button-file-chooser">Upload file</a>
+                </div>
+            </div>
+            <div id="column-selection-row" class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12 text-right dropdown-col">
+                    Is this the latitude column? 
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 dropdown-col">
+                    <select id="dropdown-latitude" class="form-control"></select>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 text-right dropdown-col">
+                    Is this the longitude column? 
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 dropdown-col">
+                    <select id="dropdown-longitude" class="form-control"></select>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 text-right dropdown-col">
+                    Optionally, select a marker column 
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 dropdown-col">
+                    <select id="dropdown-marker" class="form-control"></select>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 dropdown-col">
+                    <a class="btn btn-sm btn-info pull-left" id="go-back-beginning-button"><i class="fa fa-arrow-left"></i></a>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 dropdown-col">
+                    <a class="btn btn-sm btn-primary pull-right" id="show-results-button">Show the results</a>
+                </div>
+            </div>
+            <div id="result-row" class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div id="map-canvas" class="map"></div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-2 col-sm-4 col-xs-4">
+                        <label>Sort by:</label>
+                    </div>
+                    <div class="col-md-4 col-sm-8 col-xs-8">
+                        <select id="dropdown-sort" class="form-control"></select>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-6">
+                        <a class="btn btn-sm btn-primary" id="sort-button"><i class="fa fa-sort"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-2 col-sm-4 col-xs-4">
+                        <label>Filter by:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-8 col-xs-8">
+                        <select id="dropdown-filter" class="form-control"></select>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <input type="text" class="form-control" id="filter-value" />
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-6">
+                        <a class="btn btn-sm btn-primary" id="filter-button"><i class="fa fa-search"></i></a>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-6">
+                        <a class="btn btn-sm btn-primary" id="remove-filter-button"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <table id="table-places" class="table table-striped">
+                    </table>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+                    <a class="btn btn-sm btn-info" id="go-back-button"><i class="fa fa-arrow-left"></i></a>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 pull-right">
+                    <a class="btn btn-sm btn-primary" id="begin-again-button">Try again!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

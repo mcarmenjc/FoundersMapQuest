@@ -52,7 +52,8 @@ module.exports = function (grunt) {
                         'js/libs/jquery-2.1.4.js',  
                         'js/libs/underscore.js', 
                         'js/libs/backbone.js',  
-                        'specs/libs/jasmine-jquery.js'
+                        'js/libs/papaparse.min.js',
+                        'spec/libs/jasmine-jquery.js'
                     ],
                     specs: [
                         'spec/models/*.js', 

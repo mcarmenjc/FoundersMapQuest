@@ -61,9 +61,8 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
     },
     /** 
      * Get the selected file to process it.
-     * @param {Object} event Object with all the data related to the event triggered
      */
-    processFile: function(event) {
+    processFile: function() {
         var fileName = this.$fileChooser.val(),
             file,
             me = this;
@@ -146,8 +145,8 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
             markerColumn = me.$('#dropdown-marker').val(),
             mapCenter;
         if (latitudeColumn !== longitudeColumn){
-            me.setDropdownListValues('#dropdown-sort', true);
-            me.setDropdownListValues('#dropdown-filter', true);
+            me.setDropdownListValues('#dropdown-sort', false);
+            me.setDropdownListValues('#dropdown-filter', false);
             me.$columnSelectionRow.hide();
             me.$resultRow.show();
             mapCenter = me.getMapCenter(latitudeColumn, longitudeColumn);
