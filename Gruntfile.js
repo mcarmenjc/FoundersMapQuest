@@ -48,6 +48,7 @@ module.exports = function (grunt) {
                 ],
                 options: {
                     vendor: [
+                        'http://maps.googleapis.com/maps/api/js?sensor=false&language=en',
                         'js/libs/jquery-2.1.4.js',  
                         'js/libs/underscore.js', 
                         'js/libs/backbone.js',  

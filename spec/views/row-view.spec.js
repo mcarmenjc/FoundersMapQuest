@@ -1,7 +1,7 @@
-describe ('app.FileView', function(){
+describe ('app.RowView', function(){
 	var view;
 	beforeEach(function(){
-		view = new app.FileView();
+		view = new app.RowView();
 	});
 
 	it('should be defined', function(){

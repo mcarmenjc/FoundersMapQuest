@@ -23,7 +23,11 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         'change #file-chooser': 'processFile',
         'click #show-results-button': 'showResults',
         'click #filter-button': 'filterRows',
-        'click #sort-button': 'sortRows'
+        'click #remove-filter-button': 'removeFilter',
+        'click #sort-button': 'sortRows',
+        'click #begin-again-button': 'beginAgain',
+        'click #go-back-beginning-button': 'beginAgain',
+        'click #go-back-button': 'goBack'
     },
     /** 
      * @contructs AppView object 
@@ -44,7 +48,6 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
 
         me.listenTo(app.Rows, 'add', me.addRow);
         me.listenTo(app.Rows, 'reset', me.addAllRows);
-        me.listenTo(app.Columns, 'add', me.addColumn);
         me.listenTo(app.Columns, 'reset', me.addAllColumns);
 
         me.$columnSelectionRow.hide();
@@ -89,8 +92,9 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
                     me.showParsingError();
                 }
                 else{
+                    me.$table.html('');
                     app.Columns.reset(results.meta.fields);
-                    app.Rows.reset(results.data);
+                    app.Rows.setData(results.data);
                     me.showSelectOptions();
                 }
             }
@@ -184,6 +188,10 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
                 longitudeValue);
         return mapCenter;
     },
+    /** 
+     * When app.Columns collection is reset, this method is called. It will append the thead field to 
+     * the table, based on the columns readed from the file.
+     */
     addAllColumns: function(){
         var me = this,
             htmlText = '<th>Hide</th>\n';
@@ -192,23 +200,67 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         });
         me.$table.append($('<thead>').append($('<tr>').html(htmlText)));
     },
+    /** 
+     * When app.Rows collection is reset, this method is called. For each row model object in the collection
+     * it will call the function addRow
+     */
     addAllRows: function(){
+        var tbodyEl = this.$table.find('tbody');
+        if (tbodyEl !== undefined){
+            tbodyEl.html('');
+        }
         app.Rows.each(this.addRow, this);
     },
+    /** 
+     * Create a new app.RowView for a row and add it to the table.
+     * @param {Object} row row model to display
+     */
     addRow: function(row) {
         var view = new app.RowView ({model: row});
         this.$table.append(view.render().el);
     },
+    /** 
+     * Retrieve from dropdown and text field the values to filter the rows in the table.
+     */
     filterRows: function(){
         var me = this,
             filterColumn = me.$('#dropdown-filter').val(),
             filterValue = me.$('#filter-value').val();
-        app.Rows.where({filterColumn : filterValue});
+        app.Rows.filter(filterColumn, filterValue);
     },
+    /** 
+     * Sort rows in the table depending on the column selected in the drop down list.
+     */
     sortRows: function(){
         var me = this,
             sortColumn = me.$('#dropdown-sort').val();
-        app.Rows.comparator = sortColumn;
-        app.Rows.sort();
+        app.Rows.sortBy(sortColumn);
+    },
+    /** 
+     * Remove the applied filter to the table.
+     */
+    removeFilter: function(){
+        var me = this;
+        me.$('#dropdown-filter').val('');
+        me.$('#filter-value').val('');
+        app.Rows.removeFilter();
+    },
+    /** 
+     * Move back to the initial step.
+     */
+    beginAgain: function (argument) {
+        var me = this;
+        me.$columnSelectionRow.hide();
+        me.$resultRow.hide();
+        me.$selectFileRow.show();
+    },
+    /** 
+     * Move back to the column selection for latitude, longitude and marker.
+     */
+    goBack: function(){
+        var me = this;
+        me.$resultRow.hide();
+        me.$selectFileRow.hide();
+        me.$columnSelectionRow.show();
     }
 });

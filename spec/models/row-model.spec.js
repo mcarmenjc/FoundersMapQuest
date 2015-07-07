@@ -40,6 +40,15 @@ describe ('app.RowModel', function(){
 	});
 	describe('setters', function(){
 		describe('#toggle', function(){
+			beforeEach(function(){
+				row = new app.RowModel({
+					latitude: 1,
+					longitude: 2,
+					marker: 'hola'
+				});
+				row.createGoogleMarker('latitude', 'longitude', 'marker');
+			});
+
 			it('should be defined', function(){
 				expect(row.toggle).toBeDefined();
 			});
