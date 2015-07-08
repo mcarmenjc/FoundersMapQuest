@@ -1,7 +1,12 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 .step {
 	background-color: #d9edf7;
 	color: #333333;
-	height: 100px;
+	height: 170px;
 	width: 300px;
 	border-radius: 5px;
 	text-align: center;
@@ -12,6 +17,9 @@
 
 .step h2 {
 	margin: 0;
+}
+.step i {
+	margin-top: 10px;
 }
 
 .done {
@@ -36,5 +44,13 @@
 }
 
 .form-inline {
+	margin-top: 20px;
+}
+
+.places {
+	margin-top: 20px;
+}
+
+.row-step {
 	margin-top: 20px;
 }

@@ -2,6 +2,8 @@ describe ('app.RowView', function(){
 	var view,
 		model;
 	beforeEach(function(){
+		jasmine.getFixtures().fixturesPath = 'spec/fixtures';
+		loadFixtures('index-fixture.html');
 		model = new app.RowModel({
 			Street: '1600 Amphitheatre Pkwy',
 			City: 'Mountain View',
@@ -30,8 +32,8 @@ describe ('app.RowView', function(){
 		beforeEach(function(){
 			view.render();
 		});
-		it ('should create a tr with 12 td cells (model properties + hide column)', function(){
-			expect(view.$el.find('td').length).toEqual(12);
+		it ('should create a table with 11 rows', function(){
+			expect(view.$el.find('tr').length).toEqual(11);
 		});
 		it ('should add a link html element in Home Page cell and Photo', function(){
 			expect(view.$el.find('a').length).toEqual(2);

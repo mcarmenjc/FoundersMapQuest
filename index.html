@@ -5,30 +5,34 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/founders-map-quest.css" rel="stylesheet" />
     <title>Founders Map Quest</title>
 </head>
 
 <body> 
     <div class="container"> 
-        <div id="header" class="jumbotron">
+        <div id="header" class="page-header">
             <h1 class="text-center">FOUNDERS MAP QUEST</h1>
         </div>
         <div id="main">
             <div id="steps-row" class="row">
-                <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="col-md-4 col-sm-4 col-xs-12 row-step">
                     <div id="first-column" class="step">
                         <h2>First! Upload your file!</h2>
+                        <h2><i class="fa fa-cloud-upload"></i></h2>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">    
+                <div class="col-md-4 col-sm-4 col-xs-12 row-step">    
                     <div id="second-column" class="step">
                         <h2>Second! We need your feedback!</h2>
+                        <h2><i class="fa fa-keyboard-o"></i></h2>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="col-md-4 col-sm-4 col-xs-12 row-step">
                     <div id="third-column" class="step">
                         <h2>Third! Enjoy the results!</h2>
+                        <h2><i class="fa fa-map-marker"></i></h2>
                     </div>
                 </div>
             </div>
@@ -90,14 +94,15 @@
                             <div class="form-group">
                                 <label for="dropdown-filter">Filter by: </label>
                                 <select id="dropdown-filter" class="form-control"></select>
+                                <input type="text" class="form-control" id="filter-value" />
                             </div>
                             <a class="btn btn-sm btn-primary" id="filter-button"><i class="fa fa-search"></i></a>
                             <a class="btn btn-sm btn-primary" id="remove-filter-button"><i class="fa fa-times"></i></a>
                         </form>
                     </div>
-                    <div class="col-md-12 col-sm-12 col-xs-12" id="table-places">
+                    <div class="col-md-12 col-sm-12 col-xs-12 places" id="table-places">
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                         <a class="btn btn-sm btn-info" id="begin-again-button">Try again!</a>
                     </div>
                 </div>
@@ -115,12 +120,29 @@
         </div>
     </script>
 
+    <script type="text/template" id="row-template">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="toggle"> Hide marker
+                    </label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped" id="data-table">
+                </table>
+            </div>
+        </div>
+    </script>
+
     <script src="js/libs/jquery-2.1.4.min.js"></script>
     <script src="js/libs/underscore.js"></script>
     <script src="js/libs/backbone.js"></script>
     <script src="js/libs/papaparse.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
-
+    <script src="js/dist/founders-map-quest.min.js"></script>
+    <!--
     <script src="js/models/column-model.js"></script>
     <script src="js/models/row-model.js"></script>
     <script src="js/models/error-model.js"></script>
@@ -129,6 +151,6 @@
     <script src="js/views/row-view.js"></script>
     <script src="js/views/error-view.js"></script>
     <script src="js/views/file-view.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.js"></script>-->
 </body>
 </html>
