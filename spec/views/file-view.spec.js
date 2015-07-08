@@ -2,7 +2,7 @@ describe ('app.FileView', function(){
 	var view;
 	beforeEach(function(){
 		jasmine.getFixtures().fixturesPath = 'spec/fixtures';
-		loadFixtures('index-fixture.html')
+		loadFixtures('index-fixture.html');
 		view = new app.FileView();
 	});
 
@@ -29,6 +29,9 @@ describe ('app.FileView', function(){
 		it ('should trigger click on file chooser hidden element', function(){
 			expect(view.$fileChooser.click).toHaveBeenCalled();
 		});
+		it ('should remove old errors', function(){
+			expect(view.$errorRow).toBeEmpty();
+		});
 	});
 
 	describe('when a file is chosen', function(){
@@ -39,6 +42,8 @@ describe ('app.FileView', function(){
 	            type: 'img/png'
 	        };
 	        view.setDataFromFile(file);
+	        expect(view.$errorRow).not.toBeEmpty();
+	        expect(view.$errorRow).toContainText('Looks like it\'s the wrong file format, make sure it\'s a .csv');
 		});
 		it('should show an error if the file is empty', function(){
 			var file = {
@@ -47,6 +52,8 @@ describe ('app.FileView', function(){
 	            type: 'text/csv'
 	        };
 	        view.setDataFromFile(file);
+	        expect(view.$errorRow).not.toBeEmpty();
+	        expect(view.$errorRow).toContainText('Looks like the file is empty, please upload another file');
 		});
 		it('should parse file', function(){
 			var file = {
@@ -67,6 +74,7 @@ describe ('app.FileView', function(){
 			it('should show dropdowns and hide selection section', function(){
 				expect(view.$columnSelectionRow).toBeVisible();
 				expect(view.$selectFileRow).toBeHidden();
+				expect(view.$errorRow).toBeEmpty();
 			});
 			it('should add correct options to dropdowns', function(){
 				expect(view.$('#dropdown-latitude')[0].options.length).toEqual(3);
@@ -131,6 +139,7 @@ describe ('app.FileView', function(){
 		it('should hide dropdowns and show result section', function(){
 			expect(view.$columnSelectionRow).toBeHidden();
 			expect(view.$resultRow).toBeVisible();
+			expect(view.$errorRow).toBeEmpty();
 		});
 		it('should add all options to filter and sort dropdowns', function(){
 			expect(view.$('#dropdown-sort')[0].options.length).toEqual(11);

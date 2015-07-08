@@ -41,6 +41,7 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         me.$selectFileRow = me.$('#select-file-row');
         me.$columnSelectionRow = me.$('#column-selection-row');
         me.$resultRow = me.$('#result-row');
+        me.$errorRow = me.$('#error-row');
         me.$fileChooser = me.$('#file-chooser');
         me.$mapElement = me.$('#map-canvas');
         me.$table = me.$('#table-places');
@@ -54,10 +55,13 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         me.$resultRow.hide();
     },
     /** 
-     * Opens file chooser dialog to select the csv file which contains the data to show 
+     * Opens file chooser dialog to select the csv file which contains the data to show,
+     * and remove all errors
      */
     openFileChooser: function() {
-        this.$fileChooser.click();
+        var me = this;
+        me.$errorRow.html('');
+        me.$fileChooser.click();
     },
     /** 
      * Get the selected file to process it.
@@ -84,20 +88,22 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         if (file.size === 0){
             me.showNoDataError();
         }
-        Papa.parse(file, {
-            header: true,
-            complete: function(results) {
-                if (results.errors.length > 0){
-                    me.showParsingError();
+        if (file.type === 'text/csv' && file.size > 0){
+            Papa.parse(file, {
+                header: true,
+                complete: function(results) {
+                    if (results.errors.length > 0){
+                        me.showParsingError();
+                    }
+                    else{
+                        me.$table.html('');
+                        app.Columns.reset(results.meta.fields);
+                        app.Rows.setData(results.data);
+                        me.showSelectOptions();
+                    }
                 }
-                else{
-                    me.$table.html('');
-                    app.Columns.reset(results.meta.fields);
-                    app.Rows.setData(results.data);
-                    me.showSelectOptions();
-                }
-            }
-        });
+            });
+        }
      },
     /** 
      * Hide file chooser row and show dropdowns to select latitude, longitude and marker columns. 
@@ -110,6 +116,7 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         me.setDropdownListValues('#dropdown-marker', true);
         me.$selectFileRow.hide();
         me.$columnSelectionRow.show();
+        me.$errorRow.html('');
     },
     /** 
      * Set the dropdown list options to the columns list
@@ -147,6 +154,7 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         if (latitudeColumn !== longitudeColumn){
             me.setDropdownListValues('#dropdown-sort', false);
             me.setDropdownListValues('#dropdown-filter', false);
+            me.$errorRow.html('');
             me.$columnSelectionRow.hide();
             me.$resultRow.show();
             mapCenter = me.getMapCenter(latitudeColumn, longitudeColumn);
@@ -261,5 +269,41 @@ app.FileView = Backbone.View.extend(/** @lends FileView.prototype */{
         me.$resultRow.hide();
         me.$selectFileRow.hide();
         me.$columnSelectionRow.show();
+    },
+    /** 
+     * Create error message when type of file is not correct
+     */
+    showTypeError: function(){
+        var error = new app.ErrorModel({message: 'Looks like it\'s the wrong file format, make sure it\'s a .csv'}),
+            errorView = new app.ErrorView({model: error}),
+            me = this;
+        me.$errorRow.append(errorView.render().el);
+    },
+    /** 
+     * Create error message when file is empty
+     */
+    showNoDataError: function(){
+        var error = new app.ErrorModel({message: 'Looks like the file is empty, please upload another file'}),
+            errorView = new app.ErrorView({model: error}),
+            me = this;
+        me.$errorRow.append(errorView.render().el);
+    },
+    /** 
+     * Create error message when file is not parsed correctly
+     */
+    showParsingError: function(){
+        var error = new app.ErrorModel({message: 'Looks like there\'s a problem processing the file, please try with another file'}),
+            errorView = new app.ErrorView({model: error}),
+            me = this;
+        me.$errorRow.append(errorView.render().el);
+    },
+    /** 
+     * Create error message when latitude and longitude columns are the same
+     */
+    showEqualLatitudeLongitudeValues: function(){
+        var error = new app.ErrorModel({message: 'Looks like you have selected the same column for latitude and longitude'}),
+            errorView = new app.ErrorView({model: error}),
+            me = this;
+        me.$errorRow.append(errorView.render().el);
     }
 });
