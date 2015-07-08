@@ -23,8 +23,8 @@
 	margin-top: 60px;
 }
 
-.dropdown-col {
-	margin-top: 15px;
+.arrow-col {
+	margin-top: 100px;
 }
 
 .map {
@@ -33,4 +33,8 @@
 	background-color: #ccc;
 	margin-bottom: 60px;
 	text-align: center;
+}
+
+.form-inline {
+	margin-top: 20px;
 }
