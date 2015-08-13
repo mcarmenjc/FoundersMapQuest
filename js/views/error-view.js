@@ -17,7 +17,7 @@ app.ErrorView = Backbone.View.extend(/** @lends ErrorView.prototype */{
       this.template = _.template($('#error-template').html());
     },
     /** 
-     * Render the error. Create the html code for rendering the error based on the template.
+     * Renders the error. Create the html code for rendering the error based on the template.
      * @returns {Object} It returns itself
      */
     render: function(){

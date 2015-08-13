@@ -3,7 +3,13 @@ describe ('app.RowView', function(){
 		model;
 	beforeEach(function(){
 		jasmine.getFixtures().fixturesPath = 'spec/fixtures';
-		loadFixtures('index-fixture.html');
+		try{
+			loadFixtures('index-fixture.html');
+		}
+		catch(ex){
+			jasmine.getFixtures().fixturesPath = 'fixtures';
+			loadFixtures('index-fixture.html');
+		}
 		model = new app.RowModel({
 			Street: '1600 Amphitheatre Pkwy',
 			City: 'Mountain View',
@@ -44,16 +50,39 @@ describe ('app.RowView', function(){
 	});
 	describe('when toggling map marker', function(){
 	    beforeEach(function(){
-	    	spyOn(view.model, 'toggle').and.callThrough();
+	    	spyOn(view.model, 'toggleMarker').and.callThrough();
 	    	$('body').append($('<div>')
 	    				.attr('id', 'spec'));
     		$('#spec').html(view.render().el);
 			model.createGoogleMarker('Garage Latitude', 'Garage Longitude', 'Company Name');
 	        view.$el.find('#toggle').click();
 	    });
+	    afterEach(function(){
+	    	$('#spec').html('');
+	    });
 
-	    it('should call model toggle function', function () {
-	        expect(view.model.toggle).toHaveBeenCalled();
+	    it('should call model toggleMarker function', function () {
+	        expect(view.model.toggleMarker).toHaveBeenCalled();
+	    });
+	});
+	describe('when the hidden property of the model changes', function(){
+	    beforeEach(function(){
+	    	$('body').append($('<div>')
+	    				.attr('id', 'spec'));
+    		$('#spec').html(view.render().el);
+			model.createGoogleMarker('Garage Latitude', 'Garage Longitude', 'Company Name');
+	    });
+	    afterEach(function(){
+	    	$('#spec').html('');
+	    });
+
+	    it('should hide the element function if it is hidden', function () {
+	    	view.model.hide();
+	        expect(view.$el).toBeHidden();
+	    });
+	    it('should show the element function if it is shown', function () {
+	    	view.model.show();
+	        expect(view.$el).toBeVisible();
 	    });
 	});
 });

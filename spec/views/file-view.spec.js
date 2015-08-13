@@ -2,7 +2,15 @@ describe ('app.FileView', function(){
 	var view;
 	beforeEach(function(){
 		jasmine.getFixtures().fixturesPath = 'spec/fixtures';
-		loadFixtures('index-fixture.html');
+		try{
+			loadFixtures('index-fixture.html');
+		}
+		catch(ex){
+			jasmine.getFixtures().fixturesPath = 'fixtures';
+			loadFixtures('index-fixture.html');
+		}
+		app.Columns = new app.ColumnCollection();
+		app.Rows = new app.RowCollection();
 		view = new app.FileView();
 	});
 
@@ -86,8 +94,6 @@ describe ('app.FileView', function(){
 
 	describe('when showing results', function(){
 		beforeEach(function(){
-			app.Columns = new app.ColumnCollection();
-			app.Rows = new app.RowCollection();
 			app.Columns.set(['Id', 'Company Name', 'Founder', 'City', 'Country', 'Postal Code', ' Street', 'Photo', 'Home Page', 'Garage Latitude', 'Garage Longitude']);
 			app.Rows.set([
 				{

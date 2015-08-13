@@ -17,7 +17,7 @@ app.ColumnModel = Backbone.Model.extend(/** @lends ColumnModel.prototype */ {
 		}
 	},
 	/** 
-     * Get default value for a column
+     * Gets default value for a column
      * @returns {Object} An object with the defaults values to set
      */
 	defaults: function(){
@@ -26,7 +26,7 @@ app.ColumnModel = Backbone.Model.extend(/** @lends ColumnModel.prototype */ {
 		};
 	},
 	/** 
-     * Get name property value
+     * Gets name property value
      * @returns {string} The name of the column
      */
 	getName: function(){

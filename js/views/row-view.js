@@ -13,17 +13,20 @@ app.RowView = Backbone.View.extend(/** @lends RowView.prototype */{
      * @property {Object} events Associates DOM events with a function to process them
      */
     events: {
-      "click #toggle"   : "toggleMarker",
+      "click #toggle"   : "toggleMarker"
     },
     /** 
      * @contructs RowView object.
      * Initialize the related template in the DOM
+     * @listens RowModel:change:hidden
      */
     initialize: function(){
-      this.template = _.template($('#row-template').html());
+      var me = this;
+      me.template = _.template($('#row-template').html());
+      me.listenTo(me.model, 'change:hidden', me.toggleRow);
     },
     /** 
-     * Render the row. Create the html code for rendering the row. It manages if the content of the cell
+     * Renders the row. Create the html code for rendering the row. It manages if the content of the cell
      * is a link or an image
      * @returns {Object} It returns itself
      */
@@ -34,7 +37,7 @@ app.RowView = Backbone.View.extend(/** @lends RowView.prototype */{
             var dataCell,
                 isLink,
                 extension;
-            if(key !== 'hide'){
+            if(key !== 'hiddenMarker' && key !== 'hidden' && key !== 'googleMap' && key !== 'googleMarker'){
               me.$el.find('#data-table')
               .append($('<tr>')
                 .append($('<td>')
@@ -68,6 +71,18 @@ app.RowView = Backbone.View.extend(/** @lends RowView.prototype */{
      * Toggle if the row should be displayed or not in the map.
      */
     toggleMarker: function(){
-        this.model.toggle();
+        this.model.toggleMarker();
+    },
+    /** 
+     * Depending if the row is hidden or not, the DOM element is going to be hidden or shown.
+     */
+    toggleRow: function(){
+      var me = this;
+      if (me.model.isHidden()){
+        me.$el.hide();
+      }
+      else{
+        me.$el.show();
+      }
     }
 });

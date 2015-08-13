@@ -9,7 +9,7 @@ var app = app || {};
  */
 app.ErrorModel = Backbone.Model.extend(/** @lends ErrorModel.prototype */ {
 	/** 
-     * Get default value for an error
+     * Gets default value for an error
      * @returns {Object} An object with the defaults values to set
      */
 	defaults: function(){
